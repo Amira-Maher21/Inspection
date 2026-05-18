@@ -1,0 +1,137 @@
+﻿using Inspection.Application.Contracts.Dto.SharedDtos;
+using Inspection.Application.Contracts.Dto.SystemConfigurationDTOs.CompanyDTOs;
+using Inspection.Application.Contracts.Managers;
+using Microsoft.AspNetCore.Mvc;
+using NDS.Shared.API.ControllersBase;
+using NDS.Shared.Application.DataQuery;
+
+namespace Inspection.API.Controllers.Controllers.SystemConfigurations.Companies
+{
+    [Route("api/Company/[action]")]
+    [ApiController]
+    public class CompanyController : InspectionControllerBase
+    {
+        private readonly IAccountsServicesManger _servicesManger;
+
+        public CompanyController(IAccountsServicesManger servicesManger)
+        {
+            _servicesManger = servicesManger;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CompanyCreateDto input)
+        {
+            var insertResult = await _servicesManger.CompanyService.Create(input);
+            if (insertResult.Succeeded)
+            {
+                return Ok(insertResult.Result);
+            }
+            return StatusCode(500, insertResult.Errors);
+        }
+        [HttpPut]
+        public async Task<IActionResult> Update(CompanyUpdateDto input)
+        {
+            var updateResult = await _servicesManger.CompanyService.Update(input);
+            if (updateResult.Succeeded)
+            {
+                return Ok(updateResult.Result);
+            }
+            return StatusCode(500, updateResult.Errors);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var deleteResult = await _servicesManger.CompanyService.Delete(id);
+            if (deleteResult.Succeeded)
+            {
+                return Ok(deleteResult.Result);
+            }
+            return StatusCode(500, deleteResult.Errors);
+        }
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetList()
+        //{
+        //    var list = await _servicesManger.CompanyService.GetListAsync();
+        //    return Ok(list);
+        //}
+
+        [HttpPost]
+        public async Task<IActionResult> Search(SqlQueryOptions sqlQueryOptions)
+        {
+            var getResult = await _servicesManger.CompanyService.Search(sqlQueryOptions);
+            if (getResult.Succeeded)
+            {
+                return Ok(getResult.Result);
+            }
+            return StatusCode(500, getResult.Errors);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            var getResult = await _servicesManger.CompanyService.GetById(id);
+            if (getResult.Succeeded)
+            {
+                return Ok(getResult.Result);
+            }
+            return StatusCode(500, getResult.Errors);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetIdAndName([FromQuery] SqlQueryOptions sqlQueryOptions)
+        {
+            var getResult = await _servicesManger.CompanyService.GetIdAndName(sqlQueryOptions);
+            if (getResult.Succeeded)
+            {
+                return Ok(getResult.Result);
+            }
+            return StatusCode(500, getResult.Errors);
+        }
+
+        //[HttpPost("Import")]
+        //[RequestSizeLimit(50_000_000)]
+        //public async Task<IActionResult> Import([FromForm] IFormFile file)
+        //{
+        //    if (file == null || file.Length == 0)
+        //        return BadRequest("No file uploaded.");
+
+        //    var importResult = await _servicesManger.CompanyService.ImportFromExcel(file);
+
+        //    if (!importResult.Succeeded)
+        //        return StatusCode(500, importResult.Errors);
+
+        //    return Ok(importResult.Result);
+        //}
+
+        [HttpPatch]
+        public async Task<IActionResult> Import([FromForm] ExcelImportRequestDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _servicesManger.CompanyService.ImportCompanies(dto);
+
+            if (!result.Succeeded)
+                return StatusCode(500, result.Errors);
+
+            return Ok(result.Result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadTemplate()
+        {
+            var result = await _servicesManger.CompanyService.DownloadTemplate();
+
+            if (!result.Succeeded)
+                return BadRequest(result);
+
+            var file = result.Result!;
+
+            return File(
+                file.Content,
+                file.ContentType,
+                file.FileName);
+        }
+
+    }
+}

@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inspection.Application.Contracts.Dto.EquipmentManagement.EquipmentPreventiveMaintenances
+{
+    public class CreateEquipmentPreventiveMaintenanceDto
+    {
+
+
+        public long CompanyEquipmentId { get; set; }
+
+        public string Action { get; set; }
+        public string? Frequency { get; set; }
+        public DateTime? Dte { get; set; }
+
+        public string PerformedBy { get; set; }
+        public string? Note { get; set; }
+        public string Tenant_ID { get; set; }
+    }
+}

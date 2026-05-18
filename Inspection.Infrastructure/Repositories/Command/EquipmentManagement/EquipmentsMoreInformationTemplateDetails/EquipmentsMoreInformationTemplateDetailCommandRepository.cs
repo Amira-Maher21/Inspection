@@ -1,0 +1,73 @@
+﻿using Inspection.Application.Contracts.Dto.EquipmentManagement.EquipmentsMoreInformationTemplateDetails;
+using Inspection.Application.Contracts.Repositories.Command.EquipmentManagement.EquipmentsMoreInformationTemplateDetails;
+using Inspection.Domain.Models.EquipmentManagement.EquipmentsMoreInformationTemplateDetails;
+using Microsoft.EntityFrameworkCore;
+using NDS.Shared.Application.Multitenant;
+using NDS.Shared.Application.RepositoryBase.RepositoryHelpers;
+using NDS.Shared.Infrastructure.RepositoryBase;
+using NDS.Shared.Kernel.BaseReturnTypes;
+using NDS.Shared.Kernel.Exceptions;
+
+namespace Inspection.Infrastructure.Repositories.Command.EquipmentManagement.EquipmentsMoreInformationTemplateDetails
+{
+
+
+    public class EquipmentsMoreInformationTemplateDetailCommandRepository : CommandRepositoryBase<EquipmentsMoreInformationTemplateDetail>, IEquipmentsMoreInformationTemplateDetailCommandRepository
+    {
+        public EquipmentsMoreInformationTemplateDetailCommandRepository(DbContext context, ITenantResolver tenantResolver, IExceptionManager exceptionManager) : base(context, tenantResolver, exceptionManager)
+        {
+
+            _entityStructure = new EntityStructure
+            {
+                Key = ["Id"]
+            };
+        }
+
+
+
+        public async Task<ReturnBase> DeleteByIdAsync(long id)
+        {
+            var entity = await _dbSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (entity is null)
+            {
+                var error = new ReturnBaseError
+                {
+                    ErrorCode = "404",
+                    ErrorMessage = "Equipments More Information Template Detail Not Found"
+                };
+                var listOfErrors = new List<ReturnBaseError>() { error };
+                return ReturnBase.Fail(listOfErrors);
+            }
+            _dbSet.Remove(entity);
+            return ReturnBase.Success();
+        }
+
+
+        public async Task<ReturnBase<CreateEquipmentsMoreInformationTemplateDetailDto>> InsertAsync(EquipmentsMoreInformationTemplateDetail input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnBase<bool>> DeleteAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnBase<EquipmentsMoreInformationTemplateDetailDto>> GetAsync(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ReturnBase<List<EquipmentsMoreInformationTemplateDetailDto>>> GetListAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public Task<ReturnBase<EquipmentsMoreInformationTemplateDetailDto>> UpdateAsync(long id, UpdateEquipmentsMoreInformationTemplateDetailDto input)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+//EquipmentsMoreInformationTemplateDetailCommandRepository

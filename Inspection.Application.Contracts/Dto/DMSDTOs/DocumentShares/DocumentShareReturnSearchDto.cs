@@ -1,0 +1,61 @@
+﻿using Inspection.Domain.Enums.DMS.DocumentShare;
+
+namespace Inspection.Application.Contracts.Dto.DMSDTOs.DocumentShares
+{
+    public class DocumentShareReturnSearchDto
+    {
+        public long Id { get; set; }
+        public long CompanyId { get; set; }
+
+        public long DocumentId { get; set; }
+        public long DocumentName { get; set; }
+        public long DocumentCode { get; set; }
+
+
+        //SharedBy
+        public long SharedById { get; set; }
+        public string SharedByName { get; set; }
+        //public long SharedByCode { get; set; }
+
+        //SharedWith
+        public long? SharedWithId { get; set; }
+        public string? SharedWithName { get; set; }
+        //public long? SharedWithCode { get; set; }
+
+
+        public ShareType ShareType { get; set; }
+
+        public string? ShareToken { get; set; }
+
+        public string? Email { get; set; }
+
+        public bool CanView { get; set; } = true;
+        public bool CanDownload { get; set; } = false;
+        public bool CanEdit { get; set; } = false;
+
+        public bool RequirePassword { get; set; } = false;
+        public string? PasswordHash { get; set; }
+
+        public DateTime? ExpiresAt { get; set; }
+
+        public DateTime? LastAccessedAt { get; set; }
+
+        public bool AccessCount { get; set; } = false;
+
+        public bool IsActive { get; set; } = true;
+
+        public DateTime? RevokedAt { get; set; }
+
+        //RevokedBy
+        public long? RevokedById { get; set; }
+        public string? RevokedByName { get; set; }
+        //public long? RevokedByCode { get; set; }
+
+
+        public string Tenant_ID { get; set; } = string.Empty;
+        public string In_User { get; set; } = string.Empty;
+        public DateTime In_Date { get; set; }
+        public string? Mod_User { get; set; }
+        public DateTime? Mod_Date { get; set; }
+    }
+}

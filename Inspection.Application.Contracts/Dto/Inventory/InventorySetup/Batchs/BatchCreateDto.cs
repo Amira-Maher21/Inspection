@@ -1,0 +1,15 @@
+﻿namespace Inspection.Application.Contracts.Dto.Inventory.InventorySetup.Batchs
+{
+    public class BatchCreateDto
+    {
+        public string BatchNumber { get; set; }
+
+        public long CompanyId { get; set; }
+        public long ItemId { get; set; }
+
+        public DateTime? ManufactureDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
+
+
+    }
+}
